@@ -1,9 +1,10 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const getPath = file => path.resolve(__dirname, file);
 
 module.exports = {
-  entry: getPath('./src/index.ts'),
+  entry: getPath('./src/index.tsx'),
   module: {
     rules: [
       {
@@ -20,7 +21,16 @@ module.exports = {
     path: getPath('./dist'),
     filename: 'bundle.js',
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      inject: 'body',
+    }),
+  ],
   devServer: {
-    contentBase: getPath('./dist'),
+    static: getPath('./dist'),
+    port: 4201,
+    hot: true,
+    historyApiFallback: true,
   },
 };
